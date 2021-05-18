@@ -1,5 +1,6 @@
 package com.example.cupcake.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,16 +23,18 @@ class OrderViewModel: ViewModel() {
     private val _price = MutableLiveData<Double>(0.0)
     val price: LiveData<Double> = _price
 
-//    private val _options = MutableLiveData<MutableList<String>>()
-//    val options: LiveData<MutableList<String>> = _options
+    private val _options = MutableLiveData<MutableList<String>>()
+    val options: LiveData<MutableList<String>> = _options
 
     val dateOptions = getPickupOptions()
 
     fun setQuantity(numberCupcakes: Int) {
+        Log.d(TAG, "called setQuantity")
         _quantity.value = numberCupcakes
     }
 
     fun setFlavor(desiredFlavor: String) {
+        Log.d(TAG, "called setFlavor")
         _flavor.value = desiredFlavor
     }
 
@@ -39,16 +42,13 @@ class OrderViewModel: ViewModel() {
         _date.value = pickupDate
     }
 
-//    fun setSameDayPickup() {
-//        _options.value?.set(0, "Same day pickup unavailable")
-//    }
-
 
     fun hasNoFlavorSet(): Boolean {
         return _flavor.value.isNullOrEmpty()
     }
 
-    private fun getPickupOptions(): MutableList<String> {
+    fun getPickupOptions(): MutableList<String> {
+        Log.d(TAG, "called getPickupOptions")
         val options = mutableListOf<String>()
         val formatter = SimpleDateFormat("E MMM d", Locale.getDefault())
         val calendar = Calendar.getInstance()
@@ -58,7 +58,9 @@ class OrderViewModel: ViewModel() {
             calendar.add(Calendar.DATE, 1)
         }
 
-//        Log.d(TAG, "${_options.value.toString()}")
+        _options.value = options
+
+        Log.d(TAG, "${_options.value.toString()}")
         return options
     }
 

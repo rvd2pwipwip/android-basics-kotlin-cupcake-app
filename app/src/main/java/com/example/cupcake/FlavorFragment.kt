@@ -16,7 +16,6 @@
 package com.example.cupcake
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,11 +61,6 @@ class FlavorFragment : Fragment() {
      * Navigate to the next screen to choose pickup date.
      */
     fun goToNextScreen() {
-        if (sharedViewModel.flavor.value == getString(R.string.special_flavor)) {
-            Log.d(TAG, "Same day pickup not available for ${getString(R.string.special_flavor)}")
-        } else {
-            Log.d(TAG, "Flavor is ${sharedViewModel.flavor.value}")
-        }
         findNavController().navigate(R.id.action_flavorFragment_to_pickupFragment)
     }
 

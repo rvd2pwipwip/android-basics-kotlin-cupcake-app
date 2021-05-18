@@ -16,7 +16,6 @@
 package com.example.cupcake
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +68,6 @@ class StartFragment : Fragment() {
             sharedViewModel.setFlavor(getString(R.string.vanilla))
         }
 
-        Log.d(TAG, "Flavor is ${sharedViewModel.flavor.value}")
         findNavController().navigate(R.id.action_startFragment_to_flavorFragment)
     }
 

@@ -26,6 +26,7 @@
     <string name="salted_caramel">Salted Caramel</string>
     <string name="coffee">Coffee</string>
     <string name="special_flavor">Special Flavor</string>
+    <string name="no_same_day">No same day pickup for &#160;</string>
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="choose_pickup_date">Choose Pickup Date</string>

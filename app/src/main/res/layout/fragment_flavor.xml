@@ -89,7 +89,6 @@
                     android:layout_height="wrap_content"
                     android:checked="@{viewModel.flavor.equals(@string/special_flavor)}"
                     android:onClick="@{() -> viewModel.setFlavor(@string/special_flavor)}"
-
                     android:text="@string/special_flavor" />
             </RadioGroup>
 
