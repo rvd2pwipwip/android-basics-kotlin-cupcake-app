@@ -16,6 +16,7 @@
 package com.example.cupcake
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.cupcake.databinding.FragmentPickupBinding
 import com.example.cupcake.model.OrderViewModel
+
+private const val TAG = "PickupFragment"
 
 /**
  * [PickupFragment] allows the user to choose a pickup date for the cupcake order.
@@ -50,9 +53,11 @@ class PickupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.apply {
+            lifecycleOwner = viewLifecycleOwner
             viewModel = sharedViewModel
             nextButton.setOnClickListener { goToNextScreen() }
         }
+        Log.d(TAG, "Price = ${sharedViewModel.price.value.toString()}")
     }
 
     /**

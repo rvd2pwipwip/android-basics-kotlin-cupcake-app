@@ -21,6 +21,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 
+private const val TAG = "Main Activity"
+
 /**
  * Activity for cupcake order flow.
  */
