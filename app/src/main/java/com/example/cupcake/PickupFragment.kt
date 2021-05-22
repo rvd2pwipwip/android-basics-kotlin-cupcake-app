@@ -16,7 +16,6 @@
 package com.example.cupcake
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,9 +54,8 @@ class PickupFragment : Fragment() {
         binding?.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = sharedViewModel
-            nextButton.setOnClickListener { goToNextScreen() }
+            pickupFragment = this@PickupFragment
         }
-        Log.d(TAG, "Price = ${sharedViewModel.price.value.toString()}")
     }
 
     /**

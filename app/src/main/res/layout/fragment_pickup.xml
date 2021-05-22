@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2020 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,9 +20,14 @@
     tools:context=".PickupFragment">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.example.cupcake.model.OrderViewModel" />
+
+        <variable
+            name="pickupFragment"
+            type="com.example.cupcake.PickupFragment" />
     </data>
 
     <ScrollView
@@ -48,10 +52,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@{viewModel.date.equals(viewModel.dateOptions[0])}"
+                    android:enabled="@{!viewModel.flavor.equals(@string/special_flavor)}"
                     android:onClick="@{() -> viewModel.setDate(viewModel.dateOptions[0])}"
                     android:text="@{viewModel.flavor.equals(@string/special_flavor) ? @string/no_same_day + @string/special_flavor : viewModel.dateOptions[0]}"
                     app:clickable="@{!viewModel.flavor.equals(@string/special_flavor)}"
-                    android:enabled="@{!viewModel.flavor.equals(@string/special_flavor)}"
                     tools:text="Thursday" />
 
                 <RadioButton
@@ -109,6 +113,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/side_margin"
+                android:onClick="@{() -> pickupFragment.goToNextScreen()}"
                 android:text="@string/next"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
