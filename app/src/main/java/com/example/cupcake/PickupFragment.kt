@@ -25,8 +25,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.cupcake.databinding.FragmentPickupBinding
 import com.example.cupcake.model.OrderViewModel
 
-private const val TAG = "PickupFragment"
-
 /**
  * [PickupFragment] allows the user to choose a pickup date for the cupcake order.
  */

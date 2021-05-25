@@ -17,6 +17,8 @@ package com.example.cupcake
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,19 +58,44 @@ class SummaryFragment : Fragment() {
             viewModel = sharedViewModel
             summaryFragment = this@SummaryFragment
         }
+        binding?.nameTextField?.editText?.addTextChangedListener(textWatcher)
     }
+
+    private val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            sharedViewModel.setOrderName(s.toString())
+            if (!s.isNullOrEmpty()) {
+                binding?.nameTextField?.error = null
+            } else {
+                binding?.nameTextField?.error = getString(R.string.order_name_error)
+            }
+        }
+    }
+
 
     /**
      * Submit the order by sharing out the order details to another app via an implicit intent.
      */
     fun sendOrder() {
+
+        if (sharedViewModel.orderName.value.isNullOrEmpty()) {
+            binding?.nameTextField?.error = getString(R.string.order_name_error)
+            return
+        }
+
         val numberOfCupcakes = sharedViewModel.quantity.value ?: 0
         val orderSummary = getString(
             R.string.order_details,
+            sharedViewModel.orderName.value.toString(),
             resources.getQuantityString(R.plurals.cupcakes, numberOfCupcakes, numberOfCupcakes),
             sharedViewModel.flavor.value.toString(),
             sharedViewModel.date.value.toString(),
-            sharedViewModel.price.value.toString()
+            sharedViewModel.price.value.toString(),
+
         )
 
         val intent = Intent(Intent.ACTION_SEND)

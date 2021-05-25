@@ -1,6 +1,5 @@
 package com.example.cupcake.model
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -9,12 +8,14 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val TAG = "OrderViewModel"
 private const val PRICE_PER_CUPCAKE = 2.00
 private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
 private const val NO_SAME_DAY = "Special Flavor"
 
 class OrderViewModel: ViewModel() {
+
+    private val _orderName = MutableLiveData<String>()
+    val orderName: LiveData<String> = _orderName
 
     private val _quantity = MutableLiveData<Int>()
     val quantity: LiveData<Int> = _quantity
@@ -37,13 +38,11 @@ class OrderViewModel: ViewModel() {
     }
 
     fun setQuantity(numberCupcakes: Int) {
-        Log.d(TAG, "called setQuantity")
         _quantity.value = numberCupcakes
         updatePrice()
     }
 
     fun setFlavor(desiredFlavor: String) {
-        Log.d(TAG, "called setFlavor")
         _flavor.value = desiredFlavor
         if (desiredFlavor == NO_SAME_DAY && date.value == dateOptions[0]) {
             setDate(dateOptions[1])
@@ -56,9 +55,16 @@ class OrderViewModel: ViewModel() {
         updatePrice()
     }
 
+    fun setOrderName(name: String) {
+        _orderName.value = name
+    }
 
     fun hasNoFlavorSet(): Boolean {
         return _flavor.value.isNullOrEmpty()
+    }
+
+    fun hasNoOrderNameSet(): Boolean {
+        return _orderName.value.isNullOrEmpty()
     }
 
     fun getPickupOptions(): MutableList<String> {
@@ -80,10 +86,10 @@ class OrderViewModel: ViewModel() {
             calculatedPrice += PRICE_FOR_SAME_DAY_PICKUP
         }
         _price.value = calculatedPrice
-        Log.d(TAG, "Price updated at ${_price.value.toString()}")
     }
 
     fun resetOrder() {
+        _orderName.value = ""
         _quantity.value = 0
         _flavor.value = ""
         _date.value = dateOptions[0]
