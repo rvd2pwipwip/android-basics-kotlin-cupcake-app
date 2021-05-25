@@ -20,6 +20,9 @@ class OrderViewModel: ViewModel() {
     private val _quantity = MutableLiveData<Int>()
     val quantity: LiveData<Int> = _quantity
 
+    private val _isSingleOrder = MutableLiveData<Boolean>()
+    val isSingleOrder: LiveData<Boolean> = _isSingleOrder
+
     private val _flavor = MutableLiveData<String>()
     val flavor: LiveData<String> = _flavor
 
@@ -39,6 +42,7 @@ class OrderViewModel: ViewModel() {
 
     fun setQuantity(numberCupcakes: Int) {
         _quantity.value = numberCupcakes
+        _isSingleOrder.value = _quantity.value == 1
         updatePrice()
     }
 
@@ -61,10 +65,6 @@ class OrderViewModel: ViewModel() {
 
     fun hasNoFlavorSet(): Boolean {
         return _flavor.value.isNullOrEmpty()
-    }
-
-    fun hasNoOrderNameSet(): Boolean {
-        return _orderName.value.isNullOrEmpty()
     }
 
     fun getPickupOptions(): MutableList<String> {
@@ -91,6 +91,7 @@ class OrderViewModel: ViewModel() {
     fun resetOrder() {
         _orderName.value = ""
         _quantity.value = 0
+        _isSingleOrder.value = false
         _flavor.value = ""
         _date.value = dateOptions[0]
         _price.value = 0.0

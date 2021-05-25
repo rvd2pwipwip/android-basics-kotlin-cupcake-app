@@ -44,8 +44,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                app:visibleOrGone="@{viewModel.isSingleOrder}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone">
 
                 <RadioButton
                     android:id="@+id/vanilla"
@@ -96,6 +98,62 @@
                     android:text="@string/special_flavor" />
             </RadioGroup>
 
+            <LinearLayout
+                android:id="@+id/multi_flavor_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:visibleOrGone="@{!viewModel.isSingleOrder}"
+                app:layout_constraintTop_toBottomOf="@id/flavor_options"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <CheckBox
+                    android:id="@+id/checkBox_vanilla"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.flavor.equals(@string/vanilla)}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
+                    android:text="@string/vanilla" />
+                <CheckBox
+                    android:id="@+id/checkBox_chocolate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
+                    android:text="@string/chocolate" />
+                <CheckBox
+                    android:id="@+id/checkBox_red_velvet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
+                    android:text="@string/red_velvet" />
+                <CheckBox
+                    android:id="@+id/checkBox_salted_caramel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
+                    android:text="@string/salted_caramel" />
+                <CheckBox
+                    android:id="@+id/checkBox_coffee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
+                    android:text="@string/coffee" />
+                <CheckBox
+                    android:id="@+id/checkBox_special_flavor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
+                    android:text="@string/special_flavor" />
+
+            </LinearLayout>
+
+
             <View
                 android:id="@+id/divider"
                 style="@style/Widget.Cupcake.Divider"
@@ -104,7 +162,8 @@
                 android:layout_marginTop="@dimen/side_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/flavor_options" />
+                app:layout_constraintTop_toBottomOf="@id/multi_flavor_options" />
+
 
             <TextView
                 android:id="@+id/subtotal"
