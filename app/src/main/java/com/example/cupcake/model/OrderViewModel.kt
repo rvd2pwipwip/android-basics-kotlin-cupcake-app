@@ -1,5 +1,6 @@
 package com.example.cupcake.model
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -12,6 +13,8 @@ private const val PRICE_PER_CUPCAKE = 2.00
 private const val PRICE_FOR_SAME_DAY_PICKUP = 3.00
 private const val NO_SAME_DAY = "Special Flavor"
 
+private const val TAG = "OrderViewModel"
+
 class OrderViewModel: ViewModel() {
 
     private val _orderName = MutableLiveData<String>()
@@ -20,11 +23,18 @@ class OrderViewModel: ViewModel() {
     private val _quantity = MutableLiveData<Int>()
     val quantity: LiveData<Int> = _quantity
 
+    //ui displays flavors as radio buttons or check boxes
     private val _isSingleOrder = MutableLiveData<Boolean>()
     val isSingleOrder: LiveData<Boolean> = _isSingleOrder
 
     private val _flavor = MutableLiveData<String>()
     val flavor: LiveData<String> = _flavor
+
+    private val _flavors = MutableLiveData<MutableMap<String, Int>>()
+    val flavors: LiveData<MutableMap<String, Int>> = _flavors
+
+    private val _hasChocolate = MutableLiveData<Boolean>()
+    val hasChocolate: LiveData<Boolean> = _hasChocolate
 
     private val _date = MutableLiveData<String>()
     val date: LiveData<String> = _date
@@ -43,6 +53,9 @@ class OrderViewModel: ViewModel() {
     fun setQuantity(numberCupcakes: Int) {
         _quantity.value = numberCupcakes
         _isSingleOrder.value = _quantity.value == 1
+        _flavors.value = setFlavors()
+        Log.d(TAG, "${_flavors.value}")
+        Log.d(TAG, "${flavors.value?.get("Vanilla")}")
         updatePrice()
     }
 
@@ -88,11 +101,33 @@ class OrderViewModel: ViewModel() {
         _price.value = calculatedPrice
     }
 
+    fun setFlavors(): MutableMap<String, Int> {
+        return mutableMapOf(
+            "Vanilla" to _quantity.value as Int,
+            "Chocolate" to 0,
+            "Red Velvet" to 0,
+            "Salted Caramel" to 0,
+            "Coffee" to 0,
+            "Special Flavor" to 0
+        )
+    }
+
+    fun addFlavor(flavor: String) {
+//        _flavors.value?.set(flavor, 1)
+        _flavors.value!![flavor] = 1
+        _hasChocolate.value = !_hasChocolate.value!!
+        Log.d(TAG, "Added $flavor ${flavors.value?.get(flavor)}")
+        Log.d(TAG, "${flavors.value}")
+    }
+
+
     fun resetOrder() {
         _orderName.value = ""
         _quantity.value = 0
         _isSingleOrder.value = false
         _flavor.value = ""
+        _flavors.value = setFlavors()
+        _hasChocolate.value = false
         _date.value = dateOptions[0]
         _price.value = 0.0
     }

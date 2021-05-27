@@ -28,6 +28,7 @@
         <variable
             name="flavorFragment"
             type="com.example.cupcake.FlavorFragment" />
+
     </data>
 
     <ScrollView
@@ -44,9 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:visibleOrGone="@{viewModel.isSingleOrder}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:visibleOrGone="@{viewModel.isSingleOrder}"
                 tools:visibility="gone">
 
                 <RadioButton
@@ -98,60 +99,145 @@
                     android:text="@string/special_flavor" />
             </RadioGroup>
 
-            <LinearLayout
-                android:id="@+id/multi_flavor_options"
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/checkbox_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:visibleOrGone="@{!viewModel.isSingleOrder}"
-                app:layout_constraintTop_toBottomOf="@id/flavor_options"
-                app:layout_constraintStart_toStartOf="parent">
+                app:constraint_referenced_ids="checkBox_vanilla, checkBox_chocolate, checkBox_red_velvet, checkBox_salted_caramel, checkBox_coffee, checkBox_special_flavor"
+                app:visibleOrGone="@{!viewModel.isSingleOrder}" />
 
-                <CheckBox
-                    android:id="@+id/checkBox_vanilla"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{viewModel.flavor.equals(@string/vanilla)}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
-                    android:text="@string/vanilla" />
-                <CheckBox
-                    android:id="@+id/checkBox_chocolate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
-                    android:text="@string/chocolate" />
-                <CheckBox
-                    android:id="@+id/checkBox_red_velvet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
-                    android:text="@string/red_velvet" />
-                <CheckBox
-                    android:id="@+id/checkBox_salted_caramel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
-                    android:text="@string/salted_caramel" />
-                <CheckBox
-                    android:id="@+id/checkBox_coffee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
-                    android:text="@string/coffee" />
-                <CheckBox
-                    android:id="@+id/checkBox_special_flavor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/flavor_options"
-                    android:text="@string/special_flavor" />
+            <CheckBox
+                android:id="@+id/checkBox_vanilla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.flavors[`Vanilla`] > 0}"
+                android:text="@string/vanilla"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/flavor_options" />
 
-            </LinearLayout>
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/vanilla_counter_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="remove_vanilla, counter_vanilla, add_vanilla"
+                app:visibleOrGone="@{viewModel.flavors[`Vanilla`] > 0}" />
+
+            <ImageView
+                android:id="@+id/remove_vanilla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> flavorFragment.goToNextScreen()}"
+                app:layout_constraintBottom_toBottomOf="@id/checkBox_vanilla"
+                app:layout_constraintEnd_toStartOf="@+id/counter_vanilla"
+                app:layout_constraintTop_toTopOf="@id/checkBox_vanilla"
+                app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24" />
+
+            <TextView
+                android:id="@+id/counter_vanilla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/side_margin"
+                android:text='@{viewModel.flavors["Vanilla"].toString()}'
+                android:textColor="?colorSecondaryVariant"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/checkBox_vanilla"
+                app:layout_constraintEnd_toStartOf="@id/add_vanilla"
+                app:layout_constraintTop_toTopOf="@id/checkBox_vanilla"
+                tools:text="6" />
+
+            <ImageView
+                android:id="@+id/add_vanilla"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> flavorFragment.goToNextScreen()}"
+                app:layout_constraintBottom_toBottomOf="@id/checkBox_vanilla"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/checkBox_vanilla"
+                app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
+
+            <CheckBox
+                android:id="@+id/checkBox_chocolate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@{viewModel.flavors[`Chocolate`] > 0}"
+                android:onClick="@{() -> viewModel.addFlavor(@string/chocolate)}"
+                android:text="@string/chocolate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_vanilla" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/chocolate_counter_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="remove_chocolate, counter_chocolate, add_chocolate"
+                app:visibleOrGone="@{viewModel.hasChocolate}" />
+<!--                app:visibleOrGone="@{viewModel.flavors[`Chocolate`] > 0}" />-->
+
+            <ImageView
+                android:id="@+id/remove_chocolate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> flavorFragment.goToNextScreen()}"
+                app:layout_constraintBottom_toBottomOf="@id/checkBox_chocolate"
+                app:layout_constraintEnd_toStartOf="@+id/counter_chocolate"
+                app:layout_constraintTop_toTopOf="@id/checkBox_chocolate"
+                app:srcCompat="@drawable/ic_baseline_remove_circle_outline_24" />
+
+            <TextView
+                android:id="@+id/counter_chocolate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/side_margin"
+                android:text='@{viewModel.flavors["Chocolate"].toString()}'
+                android:textColor="?colorSecondaryVariant"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="@id/checkBox_chocolate"
+                app:layout_constraintEnd_toStartOf="@id/add_chocolate"
+                app:layout_constraintTop_toTopOf="@id/checkBox_chocolate"
+                tools:text="6" />
+
+            <ImageView
+                android:id="@+id/add_chocolate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> flavorFragment.goToNextScreen()}"
+                app:layout_constraintBottom_toBottomOf="@id/checkBox_chocolate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/checkBox_chocolate"
+                app:srcCompat="@drawable/ic_baseline_add_circle_outline_24" />
+
+
+            <CheckBox
+                android:id="@+id/checkBox_red_velvet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/red_velvet"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_chocolate" />
+
+            <CheckBox
+                android:id="@+id/checkBox_salted_caramel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/salted_caramel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_red_velvet" />
+
+            <CheckBox
+                android:id="@+id/checkBox_coffee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/coffee"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_salted_caramel" />
+
+            <CheckBox
+                android:id="@+id/checkBox_special_flavor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/special_flavor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/checkBox_coffee" />
 
 
             <View
@@ -162,7 +248,7 @@
                 android:layout_marginTop="@dimen/side_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/multi_flavor_options" />
+                app:layout_constraintTop_toBottomOf="@id/checkBox_special_flavor" />
 
 
             <TextView
